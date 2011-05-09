@@ -20,8 +20,14 @@ Gem::Specification.new do |s|
     Rakefile
     bin/rocco
     lib/rocco.rb
+    lib/rocco/frameset.mustache
+    lib/rocco/frameset.rb
     lib/rocco/layout.mustache
     lib/rocco/layout.rb
+    lib/rocco/readme.mustache
+    lib/rocco/readme.rb
+    lib/rocco/sourcelist.mustache
+    lib/rocco/sourcelist.rb
     lib/rocco/tasks.rb
     rocco.gemspec
     test/fixtures/issue10.iso-8859-1.rb

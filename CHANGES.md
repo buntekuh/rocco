@@ -1,6 +1,19 @@
 CHANGES
 =======
 
+buntekuh fork (2011-05-09)
+--------------------------
+
+The idea of this fork is to have a tool that creates sourcecode documentation for a whole application.
+
+### Features
+* Added a `-f / --folders` CLI option that allows to set a comma separated list of directories. E.g. -f app/controllers,app/models,lib for to generate documentation for a rails app.
+
+* Added a `--readme` CLI option that allows for a readme markdown file to be selected which would be rendered into the output directory. E.g. --readme doc/readme.md
+
+* Added a `--frameset` CLI option that generates a frameset index.html file inside the output directory pointing to a sourcelist.html and readme.html
+
+
 0.6 (2011-03-05)
 ----------------
 

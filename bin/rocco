@@ -40,7 +40,10 @@ ARGV.options { |o|
   o.on("-l", "--language=LANG") { |lang| options[:language] = lang }
   o.on("-c", "--comment-chars=CHARS") { |chars| options[:comment_chars] = Regexp.escape(chars) }
   o.on("-t", "--template=TEMPLATE") { |template| options[:template_file] = template }
+  o.on("-f", "--folders=FOLDERS") { |folders| options[:folders] = folders.split(',') }
   o.on("-d", "--docblocks") { options[:docblocks] = true }
+  o.on("--readme=README") {  |readme| options[:readme] = readme }
+  o.on("--frameset") { options[:frameset] = true }
   o.on_tail("-h", "--help") { usage($stdout, 0) }
   o.parse!
 } or abort_with_note
@@ -55,6 +58,20 @@ end
 
 # Eat sources from ARGV.
 sources << ARGV.shift while ARGV.any?
+
+# Eat directory list and add files to sources
+if options[:folders]
+  current = Dir.pwd
+  options[:folders].each{|folder|
+    Dir.chdir current
+    Dir.chdir folder
+    files = Dir['**/**']
+    files.each{|file|
+      sources << File.join(folder, file)
+    } 
+  }
+  Dir.chdir current
+end
 
 # Make sure we have some files to work with.
 if sources.empty?
@@ -88,6 +105,17 @@ rescue LoadError
   end
   raise
 end
+
+if options[:frameset]
+  puts "rocco: create frameset html files"
+  Rocco.create_frameset options, output_dir, sources
+end
+
+if options[:readme]
+  puts "rocco: create readme.html"
+  Rocco.create_readme options, output_dir
+end
+
 
 # Run each file through Rocco and write output.
 sources.each do |filename|

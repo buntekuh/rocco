@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>{{ title }}</title>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  {{#sources?}}
+  <div id="jump_to">
+      <ul>
+				<li><a href="readme.html" target="code">Home</a></li>
+        {{#sources}}
+          <li><a href="{{ url }}" target="code">{{ basename }}</a></li>
+        {{/sources}}
+      </ul>
+  </div>
+  {{/sources?}}
+</div>
+</body>

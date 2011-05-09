@@ -152,6 +152,35 @@ class Rocco
   def to_html
     Rocco::Layout.new(self, @options[:template_file]).render
   end
+  
+  # Create the readme.html file that introduces your application
+  require 'rocco/readme'
+  def self.create_readme options, output_dir
+    # Create the readme.html file that introduces your application
+    if options[:readme] && File.exists?(options[:readme])
+      content = File.read(options[:readme])
+      md = Markdown.new(content, :smart).to_html
+      dest = File.join(output_dir, 'readme.html')
+      FileUtils.mkdir_p File.dirname(dest)
+      File.open(dest, 'wb') { |fd| fd.write(Rocco::Readme.new(md).render) }
+    end
+  end
+
+
+  # Generate HTML frameset files
+  require 'rocco/frameset'
+  require 'rocco/sourcelist'
+  def self.create_frameset options, output_dir, sources
+
+    # Create the frameset html
+    dest = File.join(output_dir, 'index.html')
+    FileUtils.mkdir_p File.dirname(dest)
+    File.open(dest, 'wb') { |fd| fd.write(Rocco::Frameset.new().render) }
+    
+    dest = File.join(output_dir, 'sources.html')
+    FileUtils.mkdir_p File.dirname(dest)
+    File.open(dest, 'wb') { |fd| fd.write(Rocco::Sourcelist.new(sources).render) }    
+  end
 
   # Helper Functions
   # ----------------
